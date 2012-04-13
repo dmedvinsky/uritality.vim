@@ -1,12 +1,12 @@
 URitality
 ========
 
-URiality is a plugin that makes Vim play nicely with URxvt and tmux.
+URitality is a plugin that makes Vim play nicely with URxvt and tmux.
 
 Features
 --------
 
-URiality changes the cursor colors when you enter/leave insert mode, even if
+URitality changes the cursor colors when you enter/leave insert mode, even if
 it's inside tmux!
 
 Pull requests for other helpful behavior are welcome.
