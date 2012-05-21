@@ -14,12 +14,19 @@ endif
 if !exists('g:uritality_debug') && (exists('loaded_uritality') || &cp)
     finish
 endif
-
 let loaded_uritality = 1
 
-if !exists('g:uritality_fix_cursor') " {{{
+" Config options {{{
+if !exists('g:uritality_fix_cursor')
     let g:uritality_fix_cursor = 1
-endif " }}}
+endif
+if !exists('g:uritality_color_insert')
+    let g:uritality_color_insert = "red"
+endif
+if !exists('g:uritality_color_normal')
+    let g:uritality_color_normal = "green"
+endif
+" }}}
 
 let s:inside_tmux = exists('$TMUX')
 " }}}
@@ -48,8 +55,8 @@ function! s:URitality() " {{{
     let restore_screen = "\<Esc>[?1049l"
 
     " These sequences tell URxvt to change the cursor color.
-    let cursor_green   = s:WrapForTmux("\<Esc>]12;green\x7")
-    let cursor_red     = s:WrapForTmux("\<Esc>]12;red\x7")
+    let cursor_normal   = s:WrapForTmux("\<Esc>]12;" . g:uritality_color_normal . "\x7")
+    let cursor_insert   = s:WrapForTmux("\<Esc>]12;" . g:uritality_color_insert . "\x7")
     " }}}
 
     " Startup/shutdown escapes {{{
@@ -61,11 +68,13 @@ function! s:URitality() " {{{
     " }}}
 
     " Insert enter/leave escapes {{{
-    " When entering insert mode, change the cursor to a bar.
-    let &t_SI = cursor_red
+    if g:uritality_fix_cursor
+        " When entering insert mode, change the cursor to a bar.
+        let &t_SI = cursor_insert
 
-    " When exiting insert mode, change it back to a block.
-    let &t_EI = cursor_green
+        " When exiting insert mode, change it back to a block.
+        let &t_EI = cursor_normal
+    endif
     " }}}
 endfunction " }}}
 
